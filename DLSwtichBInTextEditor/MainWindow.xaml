@@ -1,0 +1,51 @@
+﻿<Window x:Class="DLSwtichBinTextEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DLSwtichBinTextEditor"
+        mc:Ignorable="d"
+        AllowDrop="True"
+        Drop="Window_Drop"
+        DragOver="Window_DragOver"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <local:IntHexConverter x:Key="IntHexConverter" />
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="Open" Executed="Open_Executed"/>
+        <CommandBinding Command="Save" Executed="Save_Executed"/>
+    </Window.CommandBindings>
+    <DockPanel>
+        <Menu IsMainMenu="True" DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="Open"/>
+                <MenuItem Header="_Save" Command="Save"/>
+            </MenuItem>
+            <MenuItem Header="FileType" x:Name="FileMenuWrap">
+                <MenuItem Header="_Select" x:Name="FileTypeMenuItem1" Click="FileTypeSelect_Click"/>
+                <MenuItem Header="_BG" x:Name="FileTypeMenuItem2" Click="FileTypeBG_Click"/>
+                <MenuItem Header="_Speakers" x:Name="FileTypeMenuItem3" Click="FileTypeSpeakers_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Import/Export" Click="ImportExport_Click"/>
+            <MenuItem Header="_SortByName" Click="MenuItem_Click"/>
+        </Menu>
+        <ListView DockPanel.Dock="Left" x:Name="TextsList"
+                   VirtualizingStackPanel.IsVirtualizing="True" 
+                    VirtualizingPanel.IsContainerVirtualizable="True"
+                    ScrollViewer.CanContentScroll="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Path=Index,Mode=OneWay, Converter={StaticResource IntHexConverter}}" />
+                        <TextBox Grid.Column="1" MaxLength="40" Text="{Binding Path=Text, Mode=TwoWay}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
+</Window>
