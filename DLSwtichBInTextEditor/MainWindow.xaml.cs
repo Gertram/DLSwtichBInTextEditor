@@ -56,14 +56,15 @@ namespace DLSwtichBinTextEditor
             InitializeComponent();
             SetFileType(FileType.SELECT);
         }
-        private void MakeEntities(IEnumerable<BinText> texts,bool nooptimize = false)
+        private void MakeEntities(List<BinText> texts,bool nooptimize = false)
         {
-            texts = texts.Where(x => x.Text.Length > 0 && x.Text.Trim().Length > 0);
+            texts = texts.Where(x => x.Text.Length > 0 && x.Text.Trim().Length > 0).ToList();
             var items = new List<TextEntity>();
             if (nooptimize)
             {
                 foreach(var item in texts)
                 {
+                    //item.Text = item.Text.Replace("…", "...");
                     items.Add(new TextEntity { Texts = new List<BinText> { item } });
                 }
                 Texts = items;
@@ -119,7 +120,14 @@ namespace DLSwtichBinTextEditor
 
                 if (FileType == FileType.BG)
                 {
-                    MakeEntities(file.Texts.Skip(file.Header.SecondCount + 1));
+                    if (IsChaosCheckBox.IsChecked is bool isChaos && isChaos)
+                    {
+                        MakeEntities(file.Texts.Skip(file.Header.FirstCount + 1).ToList());
+                    }
+                    else
+                    {
+                        MakeEntities(file.Texts.Skip(file.Header.SecondCount + 1).ToList());
+                    }
                 }
                 else if (FileType == FileType.SELECT)
                 {
@@ -127,7 +135,7 @@ namespace DLSwtichBinTextEditor
                 }
                 else
                 {
-                    MakeEntities(file.Texts.Skip(1).Take(file.Header.FirstCount));
+                    MakeEntities(file.Texts.Skip(1).Take(file.Header.FirstCount).ToList());
                 }
                 TextsList.ItemsSource = Texts;
                 TextsList.DataContext = Texts;

@@ -17,19 +17,26 @@
         <CommandBinding Command="Save" Executed="Save_Executed"/>
     </Window.CommandBindings>
     <DockPanel>
-        <Menu IsMainMenu="True" DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open" Command="Open"/>
-                <MenuItem Header="_Save" Command="Save"/>
-            </MenuItem>
-            <MenuItem Header="FileType" x:Name="FileMenuWrap">
-                <MenuItem Header="_Select" x:Name="FileTypeMenuItem1" Click="FileTypeSelect_Click"/>
-                <MenuItem Header="_BG" x:Name="FileTypeMenuItem2" Click="FileTypeBG_Click"/>
-                <MenuItem Header="_Speakers" x:Name="FileTypeMenuItem3" Click="FileTypeSpeakers_Click"/>
-            </MenuItem>
-            <MenuItem Header="_Import/Export" Click="ImportExport_Click"/>
-            <MenuItem Header="_SortByName" Click="MenuItem_Click"/>
-        </Menu>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Menu IsMainMenu="True" Grid.Column="0">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Command="Open"/>
+                    <MenuItem Header="_Save" Command="Save"/>
+                </MenuItem>
+                <MenuItem Header="FileType" x:Name="FileMenuWrap">
+                    <MenuItem Header="_Select" x:Name="FileTypeMenuItem1" Click="FileTypeSelect_Click"/>
+                    <MenuItem Header="_BG" x:Name="FileTypeMenuItem2" Click="FileTypeBG_Click"/>
+                    <MenuItem Header="_Speakers" x:Name="FileTypeMenuItem3" Click="FileTypeSpeakers_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Import/Export" Click="ImportExport_Click"/>
+                <MenuItem Header="_SortByName" Click="MenuItem_Click"/>
+            </Menu>
+            <CheckBox Grid.Column="1" x:Name="IsChaosCheckBox" Content="IsChaos" IsChecked="False" VerticalAlignment="Center"/>
+        </Grid>
         <ListView DockPanel.Dock="Left" x:Name="TextsList"
                    VirtualizingStackPanel.IsVirtualizing="True" 
                     VirtualizingPanel.IsContainerVirtualizable="True"
